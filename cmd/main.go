@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"net/http"
-	"pstrobl96/prusa_metrics_handler/handler"
+	"pubeldev/prusa_metrics_handler/handler"
 	"strconv"
 
 	"github.com/alecthomas/kingpin/v2"

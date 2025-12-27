@@ -1,7 +1,7 @@
 package main
 
 import (
-	"pstrobl96/prusa_metrics_handler/cmd"
+	"pubeldev/prusa_metrics_handler/cmd"
 
 	"github.com/rs/zerolog"
 )

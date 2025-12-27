@@ -1,4 +1,4 @@
-module pstrobl96/prusa_metrics_handler
+module pubeldev/prusa_metrics_handler
 
 go 1.25.5
 
