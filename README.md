@@ -1,12 +1,40 @@
 # Prusa Metrics Handler
 
-This is simple utility, that takes metrics from printer, corrects timestamp and forward them into influx, easy as that.
+**Beware**. `prusa_metrics_handler` is not meant to be easy to use, altrough I'll make steps to make it easy as possible this is not a tool for begginers. Thus no dashboards will be provided - if you need simpler setup then refer to less accurate but easier [prusa_exporter](https://github.com/pubeldev/prusa_exporter).
 
-Prusa 3D printers that are based on STM32 CPUs are unable to handle timestamp properly - they use delta timestamp - and you have to process them somewhere else.
+`prusa_metrics_handler` is a tool that can be used for printer development or an AI analysis (such as machine learning). If you need accurate metrics from Prusa3D printers then this is a tool you want. It processes the timestamp and at this time being sends metrics into InfluxDB v3 (support for Otel is planned). 
 
-If you want to send metrics into metrics processor then just run gcode bellow at your printer. Don't forget change the IP address to yours. And if you are running 6.2.0 firmware you don't have to run the gcode and can update variables straight in the firmware.
+Prusa 3D printers that are based on STM32 CPUs are unable to handle timestamp properly - they use delta timestamp - and you have to process them somewhere else. That is meant by processing the timestamp.
+
+If you want to send metrics from printer into `prusa_metrics_handler` then just run gcode bellow at your printer. Don't forget change the IP address to yours. And if you are running 6.2.0 firmware you don't have to run the gcode and can update variables straight in the firmware. [Here](https://github.com/pubeldev/prusa_exporter/blob/main/docs/readme/udp/UDP.md) is a simple guide how to do it.
 
 Details can be found in [Prusa_Firmware_Buddy](https://github.com/prusa3d/Prusa-Firmware-Buddy/blob/master/doc/metrics.md) repository.
+
+## Roadmap
+
+0.5.0
+- [ ] InfluxDB v3 support
+- [x] New logic
+- [ ] Working Prometheus metrics
+
+0.6.0
+- [ ] Logic overhauled
+- [ ] Full OpenTelemetry support
+
+0.7.0
+- [ ] Tests
+- [ ] Horizontal scaling with Redis
+
+0.8.0
+- [ ] Integration with prusa_log_processor
+
+0.9.0
+- [ ] Helm Chart
+- [ ] Virtual printer (metrics generator)
+
+1.0.0
+- [ ] 🎉
+
 
 ## How to run
 
@@ -18,12 +46,13 @@ docker compose exec influxdb influxdb3 create token --admin
 docker compose down
 ```
 
-After generation you have to put your token into `.env` and `./docs/config/datasources.yaml`.
+After generation you have to put your token into `.env` and `./docs/config/datasources.yaml`. You can then simply run 
 
+`docker compose up`
 
-`sudo docker compose -f docker-compose.mimir.yaml up`
+or
 
-`./prusa_metrics_handler --influx-url=http://influxdb:8086 --influx-org=pubeldev --influx-bucket=prusa --influx-token=yourtoken`
+`./prusa_metrics_handler --influx-url=http://influxdb:8181 --influx-org=pubeldev --influx-bucket=prusa --influx-token=yourtoken`
 
 No config file is needed for handler, everything is handled with flags.
 

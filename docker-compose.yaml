@@ -1,23 +1,24 @@
 
 volumes:
-  influxdb-data:
-  grafana-data:
+  influxdb_data:
+  grafana_data:
 
 networks:
   pubel:
 
 services:
   prusa_metrics_handler:
-    build: .
-    container_name: prusa_metrics_handler
+    container_name: prusa_metrics_handler:0.5.0-alpha1
     restart: unless-stopped
     command: 
-      - "--influx-url=http://influxdb:8181"
-      - "--influx-org=pubeldev"
-      - "--influx-bucket=prusa"
-      - "--influx-token=${INFLUXDB_TOKEN}"
+      - "--influx.listen.hostname=0.0.0.0"
+      - "--influx.listen.port=8514"
+      - "--influx.url=http://influxdb:8181"
+      - "--influx.org=pubeldev"
+      - "--influx.bucket=prusa"
+      - "--influx.token=${INFLUXDB_TOKEN}"
       - "--prefix=prusa_"
-      - "--log.level=debug"
+      - "--log.level=trace"
     ports:
       - 10011:10011 # prometheus metrics
       - 8514:8514/udp
@@ -36,13 +37,26 @@ services:
       - --object-store=file
       - --data-dir=/var/lib/influxdb3
     volumes:
-      - influxdb-data:/var/lib/influxdb3
+      - influxdb_data:/var/lib/influxdb3
     restart: unless-stopped
     networks:
       - pubel
     depends_on:
       - prusa_metrics_handler
-  
+
+  prometheus:
+    image: prom/prometheus:v3.8.1
+    container_name: prometheus
+    restart: unless-stopped
+    depends_on:
+      - prusa_metrics_handler
+    ports:
+      - "9090:9090"
+    networks:
+      - pubel
+    volumes:
+      - ./docs/config/prometheus.yml:/etc/prometheus/prometheus.yml
+
   grafana:
     image: grafana/grafana:12.3
     container_name: grafana
@@ -55,4 +69,4 @@ services:
       - pubel
     volumes:
       - ./docs/config/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
-      - grafana-data:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
