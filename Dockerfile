@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.23-alpine AS builder
+FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ COPY . ./
 
 COPY *.go ./
 
-RUN go build -v -o /prusa_metrics_handler
+RUN go build -v -o /prusa_exporter
 
 FROM alpine:latest
 
