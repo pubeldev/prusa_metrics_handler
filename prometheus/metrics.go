@@ -12,4 +12,10 @@ var (
 		Help:        "The total number of processed events",
 		ConstLabels: prometheus.Labels{"type": "syslog"},
 	})
+	// MetricsHandlerTotal is the total number of processed messages
+	MetricsHandlerErrorsTotal = promauto.NewCounter(prometheus.CounterOpts{
+		Name:        "prusa_metrics_handler_syslog_messages_errors_total",
+		Help:        "The total number errors encountered while processing events",
+		ConstLabels: prometheus.Labels{"type": "syslog"},
+	})
 )

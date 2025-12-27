@@ -11,8 +11,8 @@ datasources:
       httpMode: POST
       insecureGrpc: true
     secureJsonData:
-      token: <FILL_TOKEN_HERE>
-  - name: mimir
+      token: <INFLUXDB_TOKEN>
+  - name: prometheus
     type: prometheus
-    url: http://mimir:9009/prometheus
+    url: http://prometheus:9090
     access: proxy

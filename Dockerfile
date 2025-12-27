@@ -11,7 +11,7 @@ COPY . ./
 
 COPY *.go ./
 
-RUN go build -v -o /prusa_exporter
+RUN go build -v -o /prusa_metrics_handler
 
 FROM alpine:latest
 
