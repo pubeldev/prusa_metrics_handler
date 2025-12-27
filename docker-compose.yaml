@@ -15,7 +15,7 @@ services:
       - "--influx-url=http://influxdb:8181"
       - "--influx-org=pubeldev"
       - "--influx-bucket=prusa"
-      - "--influx-token=apiv3_wlcWHWnFU7n8ZIvbWZmBb7WFQVjyONSoXM5Y0md5w4eXYWOR0U72Y3YbUQKymZ4Bt5WSDStA9t_6huvvqSHb-g"
+      - "--influx-token=${INFLUXDB_TOKEN}"
       - "--prefix=prusa_"
       - "--log.level=debug"
     ports:

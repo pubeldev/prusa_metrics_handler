@@ -11,7 +11,7 @@ datasources:
       httpMode: POST
       insecureGrpc: true
     secureJsonData:
-      token: apiv3_wlcWHWnFU7n8ZIvbWZmBb7WFQVjyONSoXM5Y0md5w4eXYWOR0U72Y3YbUQKymZ4Bt5WSDStA9t_6huvvqSHb-g
+      token: <FILL_TOKEN_HERE>
   - name: mimir
     type: prometheus
     url: http://mimir:9009/prometheus
