@@ -11,7 +11,7 @@ datasources:
       httpMode: POST
       insecureGrpc: true
     secureJsonData:
-      token: apiv3_9J6haftcPdn9vX0QASMT8BkdFt7IHt_pLELWI_kZEzkZCs-MVDcVAwpe0VdB_ds6vM9qgzFbFgLoWwI2xwDHRQ
+      token: <INFLUXDB_TOKEN>
   - name: prometheus
     type: prometheus
     url: http://prometheus:9090
