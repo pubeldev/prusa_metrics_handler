@@ -21,6 +21,7 @@ var (
 	influxURL           = kingpin.Flag("influx-url", "url for influx").Default("http://localhost:8086").String()
 	logLevel            = kingpin.Flag("log.level", "Log level for prusa_metrics_handler.").Default("info").String()
 	prefix              = kingpin.Flag("prefix", "Prefix for metrics").Default("prusa_").String()
+	otelURL             = kingpin.Flag("otel-url", "URL for OpenTelemetry collector").Default("http://localhost:4317").String()
 )
 
 // Run function to start the metrics handler

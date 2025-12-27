@@ -78,25 +78,25 @@ func processTimestamp(data format.LogParts, received time.Time) (string, string,
 	if err != nil {
 		return "", "", 0, fmt.Errorf("time delta cannot be converted to int64")
 	}
-	/*
-		printerInterface, _ := printerStates.LoadOrStore(mac, &PrinterStatus{})
-		state := printerInterface.(*PrinterStatus)
-		state.mutex.Lock()
-		timedelta := tmValue // for how long printer is running
-		timestamp := state.FirstTimestamp + timedelta
-		defer state.mutex.Unlock()
-		if state.FirstTimestamp == 0 {
-			log.Debug().Msg("First timestamp recorded for printer: " + mac)
-			timestamp = received.Add(-time.Duration(timedelta)).UnixNano()
-		} else if state.LastDelta > timedelta {
-			log.Info().Msg("Printer: " + mac + " restarted")
-			log.Debug().Msg("Restarting delta")
-			timestamp = received.Add(-time.Duration(timedelta)).UnixNano()
-		} else {
-			log.Debug().Msg("Timestamp found for: " + mac)
-		}
-		state.FirstTimestamp = timestamp
-		state.LastDelta = timedelta*/
+
+	printerInterface, _ := printerStates.LoadOrStore(mac, &PrinterStatus{})
+	state := printerInterface.(*PrinterStatus)
+	state.mutex.Lock()
+	timedelta := tmValue // for how long printer is running
+	timestamp := state.FirstTimestamp + timedelta
+	defer state.mutex.Unlock()
+	if state.FirstTimestamp == 0 {
+		log.Debug().Msg("First timestamp recorded for printer: " + mac)
+		timestamp = received.Add(-time.Duration(timedelta)).UnixNano()
+	} else if state.LastDelta > timedelta {
+		log.Info().Msg("Printer: " + mac + " restarted")
+		log.Debug().Msg("Restarting delta")
+		timestamp = received.Add(-time.Duration(timedelta)).UnixNano()
+	} else {
+		log.Debug().Msg("Timestamp found for: " + mac)
+	}
+	state.FirstTimestamp = timestamp
+	state.LastDelta = timedelta
 	return mac, ip, received.UnixNano(), nil
 }
 
