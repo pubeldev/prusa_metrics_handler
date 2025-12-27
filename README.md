@@ -18,6 +18,7 @@ docker compose exec influxdb influxdb3 create token --admin
 docker compose down
 ```
 
+After generation you have to put your token into `.env` and `./docs/config/datasources.yaml`.
 
 
 `sudo docker compose -f docker-compose.mimir.yaml up`
