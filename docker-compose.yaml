@@ -8,8 +8,7 @@ networks:
 
 services:
   prusa_metrics_handler:
-    build: .
-    container_name: prusa_metrics_handler
+    container_name: prusa_metrics_handler:0.5.0-alpha1
     restart: unless-stopped
     command: 
       - "--influx.listen.hostname=0.0.0.0"

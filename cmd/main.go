@@ -50,9 +50,9 @@ func Run() {
 
 	ready, err := client.Ready(context.Background())
 	if err != nil {
-		log.Printf("Warning: InfluxDB not ready: %v", err)
+		log.Info().Msgf("Warning: InfluxDB not ready: %v", err)
 	} else {
-		log.Printf("InfluxDB Ready: %s", ready)
+		log.Info().Msgf("InfluxDB Ready %v", ready)
 	}
 
 	cfg := config.LoadConfig(*influxListenHost, *influxListenHostPort, *influxHost, *influxToken, *influxOrg, *influxBucket, *prefix)
