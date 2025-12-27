@@ -20,7 +20,7 @@ services:
       - "--log.level=trace"
     ports:
       - 10011:10011 # prometheus metrics
-      - 8514:8514/udp
+      #- 8514:8514/udp
     networks:
       - pubel
 
