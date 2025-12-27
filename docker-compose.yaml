@@ -12,15 +12,17 @@ services:
     container_name: prusa_metrics_handler
     restart: unless-stopped
     command: 
-      - "--influx-url=http://influxdb:8181"
-      - "--influx-org=pubeldev"
-      - "--influx-bucket=prusa"
-      - "--influx-token=${INFLUXDB_TOKEN}"
+      - "--influx.listen.hostname=0.0.0.0"
+      - "--influx.listen.port=8514"
+      - "--influx.url=http://influxdb:8181"
+      - "--influx.org=pubeldev"
+      - "--influx.bucket=prusa"
+      - "--influx.token=${INFLUXDB_TOKEN}"
       - "--prefix=prusa_"
       - "--log.level=trace"
     ports:
       - 10011:10011 # prometheus metrics
-      #- 8514:8514/udp
+      - 8514:8514/udp
     networks:
       - pubel
 

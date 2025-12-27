@@ -13,13 +13,16 @@ Details can be found in [Prusa_Firmware_Buddy](https://github.com/prusa3d/Prusa-
 ## Roadmap
 
 0.5.0
-- [ ] Full InfluxDB v3 support
+- [ ] InfluxDB v3 support
+- [ ] New logic
 - [ ] Working Prometheus metrics
 
 0.6.0
+- [ ] Logic overhauled
 - [ ] Full OpenTelemetry support
 
 0.7.0
+- [ ] Tests
 - [ ] Horizontal scaling with Redis
 
 0.8.0
