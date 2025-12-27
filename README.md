@@ -14,7 +14,7 @@ Details can be found in [Prusa_Firmware_Buddy](https://github.com/prusa3d/Prusa-
 
 0.5.0
 - [ ] InfluxDB v3 support
-- [ ] New logic
+- [x] New logic
 - [ ] Working Prometheus metrics
 
 0.6.0
