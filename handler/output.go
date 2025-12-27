@@ -3,23 +3,25 @@ package handler
 import (
 	"context"
 
-	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
-	"github.com/influxdata/influxdb-client-go/v2/api"
+	"github.com/InfluxCommunity/influxdb3-go/v2/influxdb3"
 	"github.com/rs/zerolog/log"
 )
 
 var (
-	client   influxdb2.Client
-	writeAPI api.WriteAPIBlocking
+	client *influxdb3.Client
 )
 
-func sentToInflux(message []string, writeAPI api.WriteAPIBlocking) (result bool, err error) {
+type InfluxClient interface {
+	Write(ctx context.Context, data []byte, opts ...influxdb3.WriteOption) error
+}
+
+func sentToInflux(message []string, client InfluxClient) (result bool, err error) {
 	log.Trace().Msg("Sending to InfluxDB")
 
 	for _, line := range message {
-		err = writeAPI.WriteRecord(context.Background(), line)
+		err = client.Write(context.Background(), []byte(line))
 		if err != nil {
-			log.Trace().Err(err).Msg("Error while sending to InfluxDB")
+			log.Debug().Err(err).Msg("Error while sending to InfluxDB")
 			return false, err
 		}
 	}

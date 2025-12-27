@@ -4,30 +4,18 @@ import (
 	"context"
 	"testing"
 
-	"github.com/influxdata/influxdb-client-go/v2/api"
+	"github.com/InfluxCommunity/influxdb3-go/v2/influxdb3"
 	"github.com/stretchr/testify/assert"
 )
 
-type mockWriteAPI struct {
-	api.WriteAPIBlocking
-	writeRecordFunc func(ctx context.Context, line string) error
+type mockInfluxClient struct {
+	writeFunc func(ctx context.Context, data []byte, opts ...influxdb3.WriteOption) error
 }
 
-func (m *mockWriteAPI) EnableBatching() {
-	// Mock implementation
-}
-
-func (m *mockWriteAPI) WriteRecord(ctx context.Context, lines ...string) error {
-	for _, line := range lines {
-		if err := m.writeRecordFunc(ctx, line); err != nil {
-			return err
-		}
+func (m *mockInfluxClient) Write(ctx context.Context, data []byte, opts ...influxdb3.WriteOption) error {
+	if m.writeFunc != nil {
+		return m.writeFunc(ctx, data, opts...)
 	}
-	return nil
-}
-
-func (m *mockWriteAPI) Flush(ctx context.Context) error {
-	// Mock implementation
 	return nil
 }
 
@@ -35,14 +23,14 @@ func TestSentToInflux(t *testing.T) {
 	tests := []struct {
 		name        string
 		message     []string
-		writeRecord func(ctx context.Context, line string) error
+		writeFunc   func(ctx context.Context, data []byte, opts ...influxdb3.WriteOption) error
 		expected    bool
 		expectError bool
 	}{
 		{
 			name:    "successful write",
 			message: []string{"line1", "line2"},
-			writeRecord: func(ctx context.Context, line string) error {
+			writeFunc: func(ctx context.Context, data []byte, opts ...influxdb3.WriteOption) error {
 				return nil
 			},
 			expected:    false,
@@ -51,7 +39,7 @@ func TestSentToInflux(t *testing.T) {
 		{
 			name:    "write error",
 			message: []string{"line1", "line2"},
-			writeRecord: func(ctx context.Context, line string) error {
+			writeFunc: func(ctx context.Context, data []byte, opts ...influxdb3.WriteOption) error {
 				return assert.AnError
 			},
 			expected:    false,
@@ -61,11 +49,11 @@ func TestSentToInflux(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			mockAPI := &mockWriteAPI{
-				writeRecordFunc: tt.writeRecord,
+			mockClient := &mockInfluxClient{
+				writeFunc: tt.writeFunc,
 			}
 
-			result, err := sentToInflux(tt.message, mockAPI)
+			result, err := sentToInflux(tt.message, mockClient)
 			assert.Equal(t, tt.expected, result)
 			if tt.expectError {
 				assert.Error(t, err)

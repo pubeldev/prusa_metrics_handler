@@ -44,7 +44,7 @@ func process(data format.LogParts, received time.Time, prefix string) {
 		return
 	}
 
-	sentToInflux(metrics, writeAPI)
+	sentToInflux(metrics, client)
 }
 
 // processTimestamp returns the MAC address and timestamp from the ingested data
