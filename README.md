@@ -10,6 +10,16 @@ Details can be found in [Prusa_Firmware_Buddy](https://github.com/prusa3d/Prusa-
 
 ## How to run
 
+Before you fully start the docker compose you have to generate token
+
+```
+docker compose up -d influxdb
+docker compose exec influxdb influxdb3 create token --admin
+docker compose down
+```
+
+
+
 `sudo docker compose -f docker-compose.mimir.yaml up`
 
 `./prusa_metrics_handler --influx-url=http://influxdb:8086 --influx-org=pubeldev --influx-bucket=prusa --influx-token=yourtoken`
