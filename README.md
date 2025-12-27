@@ -8,6 +8,29 @@ If you want to send metrics into metrics processor then just run gcode bellow at
 
 Details can be found in [Prusa_Firmware_Buddy](https://github.com/prusa3d/Prusa-Firmware-Buddy/blob/master/doc/metrics.md) repository.
 
+## Roadmap
+
+0.5.0
+- [ ] Full InfluxDB v3 support
+- [ ] Working Prometheus metrics
+
+0.6.0
+- [ ] Full OpenTelemetry support
+
+0.7.0
+- [ ] Horizontal scaling with Redis
+
+0.8.0
+- [ ] Integration with prusa_log_processor
+
+0.9.0
+- [ ] Helm Chart
+- [ ] Virtual printer (metrics generator)
+
+1.0.0
+- [ ] 🎉
+
+
 ## How to run
 
 Before you fully start the docker compose you have to generate token
