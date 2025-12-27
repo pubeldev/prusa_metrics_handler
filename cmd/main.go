@@ -12,16 +12,16 @@ import (
 )
 
 var (
-	metricsPath         = kingpin.Flag("exporter.metrics-path", "Path where to expose metrics.").Default("/metrics").String()
-	metricsPort         = kingpin.Flag("exporter.metrics-port", "Port where to expose metrics.").Default("10011").Int()
-	syslogListenAddress = kingpin.Flag("listen-address", "Address where to expose port for gathering metrics. - format <address>:<port>").Default("0.0.0.0:8514").String()
-	influxOrg           = kingpin.Flag("influx-org", "Influx organization").Default("prusa").String()
-	influxBucket        = kingpin.Flag("influx-bucket", "Influx Bucket").Default("prusa").String()
-	influxToken         = kingpin.Flag("influx-token", "Token for influx").Default("loremipsumdolorsitmaet").String()
-	influxURL           = kingpin.Flag("influx-url", "url for influx").Default("http://localhost:8086").String()
-	logLevel            = kingpin.Flag("log.level", "Log level for prusa_metrics_handler.").Default("info").String()
-	prefix              = kingpin.Flag("prefix", "Prefix for metrics").Default("prusa_").String()
-	otelURL             = kingpin.Flag("otel-url", "URL for OpenTelemetry collector").Default("http://localhost:4317").String()
+	influxListenHost     = kingpin.Flag("influx.listen.hostname", "UDP address to listen on for syslog messages.").Default("0.0.0.0").String()
+	influxListenHostPort = kingpin.Flag("influx.listen.port", "UDP port to listen on for syslog messages.").Default("8514").Int()
+	influxHost           = kingpin.Flag("influx.url", "url for influx").Default("http://localhost:8181").String()
+	influxBucket         = kingpin.Flag("influx.bucket", "Bucket for influx (or database for v1)").Default("prusa").String()
+	influxOrg            = kingpin.Flag("influx.org", "Influx organization").Default("prusa").String()
+	influxToken          = kingpin.Flag("influx.token", "Token for influx").Default("loremipsumdolorsitamet").String()
+	logLevel             = kingpin.Flag("log.level", "Log level for prusa_metrics_handler.").Default("info").String()
+	prefix               = kingpin.Flag("prefix", "Prefix for metrics").Default("prusa_").String()
+	metricsPath          = kingpin.Flag("exporter.metrics-path", "Path where to expose metrics.").Default("/metrics").String()
+	metricsPort          = kingpin.Flag("exporter.metrics-port", "Port where to expose metrics.").Default("10011").Int()
 )
 
 // Run function to start the metrics handler
