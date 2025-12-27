@@ -1,11 +1,10 @@
 
 volumes:
-  influxdb2-data:
-  influxdb2-config:
-  grafana_data:
+  influxdb-data:
+  grafana-data:
 
 networks:
-  prusa:
+  pubel:
 
 services:
   prusa_metrics_handler:
@@ -13,43 +12,39 @@ services:
     container_name: prusa_metrics_handler
     restart: unless-stopped
     command: 
-      - "--influx-url=http://influxdb:8086"
+      - "--influx-url=http://influxdb:8181"
       - "--influx-org=pubeldev"
       - "--influx-bucket=prusa"
-      - "--influx-token=EEKpryGZk8pVDXmIuy484BKUxM5jOEDv7YNoeNZUbsNbpbPbP6kK_qY9Zsyw7zNnlZ7pHG16FYzNaqwLMBUz8g=="
+      - "--influx-token=${INFLUXDB_TOKEN}"
       - "--prefix=prusa_"
+      - "--log.level=debug"
     ports:
       - 10011:10011 # prometheus metrics
       - 8514:8514/udp
     networks:
-      - prusa
+      - pubel
 
   influxdb:
-    container_name: influxdb
-    image: influxdb:2
+    container_name: influxdb3-core
+    image: influxdb:3.8-core
     ports:
-      - 8086:8086
-    environment:
-      DOCKER_INFLUXDB_INIT_ORG: pubeldev
-      DOCKER_INFLUXDB_INIT_BUCKET: prusa
-      DOCKER_INFLUXDB_INIT_MODE: setup
-      DOCKER_INFLUXDB_INIT_USERNAME: tester
-      DOCKER_INFLUXDB_INIT_PASSWORD: hypersupermegatitanturbopassword
-      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: EEKpryGZk8pVDXmIuy484BKUxM5jOEDv7YNoeNZUbsNbpbPbP6kK_qY9Zsyw7zNnlZ7pHG16FYzNaqwLMBUz8g==
+      - 8181:8181
+    command:
+      - influxdb3
+      - serve
+      - --node-id=${INFLUXDB_NODE_ID}
+      - --object-store=file
+      - --data-dir=/var/lib/influxdb3
     volumes:
-      - type: volume
-        source: influxdb2-data
-        target: /var/lib/influxdb2
-      - type: volume
-        source: influxdb2-config
-        target: /etc/influxdb2
+      - influxdb-data:/var/lib/influxdb3
+    restart: unless-stopped
     networks:
-      - prusa
+      - pubel
     depends_on:
       - prusa_metrics_handler
-
+  
   grafana:
-    image: grafana/grafana:11.3.0
+    image: grafana/grafana:12.3
     container_name: grafana
     restart: unless-stopped
     depends_on:
@@ -57,7 +52,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - prusa
+      - pubel
     volumes:
       - ./docs/config/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
-      - grafana_data:/var/lib/grafana
+      - grafana-data:/var/lib/grafana
