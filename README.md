@@ -1,5 +1,7 @@
 # Prusa Metrics Handler
 
+**prusa_metrics_handler** is only temporary solution as the logic will be transfered to OpenTelemetry collector where you can use it as one of the receivers.
+
 **Beware**. `prusa_metrics_handler` is not meant to be easy to use, altrough I'll make steps to make it easy as possible this is not a tool for begginers. Thus no dashboards will be provided - if you need simpler setup then refer to less accurate but easier [prusa_exporter](https://github.com/pubeldev/prusa_exporter).
 
 `prusa_metrics_handler` is a tool that can be used for printer development or an AI analysis (such as machine learning). If you need accurate metrics from Prusa3D printers then this is a tool you want. It processes the timestamp and at this time being sends metrics into InfluxDB v3 (support for Otel is planned). 
