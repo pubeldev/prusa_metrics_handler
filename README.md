@@ -13,9 +13,8 @@ Details can be found in [Prusa_Firmware_Buddy](https://github.com/prusa3d/Prusa-
 ## Roadmap
 
 0.5.0
-- [ ] InfluxDB v3 support
+- [x] InfluxDB v3 support
 - [x] New logic
-- [ ] Working Prometheus metrics
 
 0.6.0
 - [ ] Logic overhauled
@@ -29,12 +28,8 @@ Details can be found in [Prusa_Firmware_Buddy](https://github.com/prusa3d/Prusa-
 - [ ] Integration with prusa_log_processor
 
 0.9.0
-- [ ] Helm Chart
-- [ ] Virtual printer (metrics generator)
-
-1.0.0
-- [ ] 🎉
-
+- [ ] Integration with OpenTelemetry Collector Contrib
+- [ ] Halting of development of standalone metrics handler
 
 ## How to run
 
